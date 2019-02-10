@@ -1,3 +1,5 @@
+# Local libs
+
 # Third party
 from liblo import *
 
@@ -16,15 +18,15 @@ class MuseServer(ServerThread):
 
 
     # Receive accelrometer data
-    @make_method('/muse/elements/experimental/concentration', 'f')
+    @make_method('/hack/elements/experimental/concentration', 'f')
     def concentration_callback(self, path, args):
         concentration = args
-        printer(concentration)
+        print(concentration)
         #print(f"{path} {concentration}")
 
 
     # Receive EEG data
-    #@make_method('/muse/eeg', 'ffff')
+    #@make_method('/hack/eeg', 'ffff')
     #def eeg_callback(self, path, args):
     #    l_ear, l_forehead, r_forehead, r_ear = args
     #    print(f"{path} {l_ear} {l_forehead} {r_forehead} {r_ear}")
@@ -34,6 +36,7 @@ class MuseServer(ServerThread):
     @make_method(None, None)
     def fallback(self, path, args, types, src):
         pass
+
 
 server = MuseServer()
 server.start()
