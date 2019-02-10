@@ -1,10 +1,14 @@
 from osc_server import MuseServer
-from muse_math import *
+import os
 import time as t
 import datetime
 import csv
+from muse_math import *
+#from ui import demo
+#from asciimatics.screen import Screen
 
-delay = 10
+delay = .3
+
 
 if __name__ == "__main__":
     server = MuseServer()
@@ -12,21 +16,20 @@ if __name__ == "__main__":
     endTime = t.time() + delay
     print("server started")
 
-    input = open('user_data.csv', 'r')
-
-
     # Lists of data points gathered from Muse headset
     alpha_data = []
     beta_data = []
     theta_data = []
 
     alpha_low = 1
-    alpha_high = 0
     beta_low = 1
-    beta_high = 0
     theta_low = 1
+
+    alpha_high = 0
+    beta_high = 0
     theta_high = 0
 
+    input = open('user_data.csv', 'r')
     #grab the user data
     with input:
         reader = csv.reader(input)
@@ -84,6 +87,9 @@ if __name__ == "__main__":
                 beta_avg = sum(beta_data) / len(beta_data)
                 theta_avg = sum(theta_data) / len(theta_data)
 
+                if alpha_avg == 0 or beta_avg == 0 or theta_avg == 0:
+                    break
+
                 if alpha_avg < alpha_low:
                     alpha_low = alpha_avg
                     up_csv()
@@ -109,15 +115,41 @@ if __name__ == "__main__":
                     up_csv()
 
 
-                print(f'''alpha: {alpha_avg} \nbeta: {beta_avg} \ntheta: {theta_avg}''')
+                scores = concentration_score(alpha_avg, beta_avg, theta_avg, alpha_low, alpha_high, beta_low, beta_high, theta_low, theta_high)
+
+
+                os.system('clear')
+                print('''
+          _____                    _____                _____                    _____                    _____                    _____
+         /\    \                  /\    \              /\    \                  /\    \                  /\    \                  /\    \                 ______
+        /::\    \                /::\    \            /::\    \                /::\    \                /::\____\                /::\    \               |::|   |
+       /::::\    \              /::::\    \           \:::\    \              /::::\    \              /::::|   |               /::::\    \              |::|   |
+      /::::::\    \            /::::::\    \           \:::\    \            /::::::\    \            /:::::|   |              /::::::\    \             |::|   |
+     /:::/\:::\    \          /:::/\:::\    \           \:::\    \          /:::/\:::\    \          /::::::|   |             /:::/\:::\    \            |::|   |
+    /:::/__\:::\    \        /:::/__\:::\    \           \:::\    \        /:::/__\:::\    \        /:::/|::|   |            /:::/__\:::\    \           |::|   |
+   /::::\   \:::\    \      /::::\   \:::\    \          /::::\    \      /::::\   \:::\    \      /:::/ |::|   |           /::::\   \:::\    \          |::|   |
+  /::::::\   \:::\    \    /::::::\   \:::\    \        /::::::\    \    /::::::\   \:::\    \    /:::/  |::|___|______    /::::::\   \:::\    \         |::|   |
+ /:::/\:::\   \:::\ ___\  /:::/\:::\   \:::\    \      /:::/\:::\    \  /:::/\:::\   \:::\    \  /:::/   |::::::::\    \  /:::/\:::\   \:::\    \  ______|::|___|___ ____
+/:::/__\:::\   \:::|    |/:::/__\:::\   \:::\____\    /:::/  \:::\____\/:::/  \:::\   \:::\____\/:::/    |:::::::::\____\/:::/  \:::\   \:::\____\|:::::::::::::::::|    |
+\:::\   \:::\  /:::|____|\:::\   \:::\   \::/    /   /:::/    \::/    /\::/    \:::\  /:::/    /\::/    / ~~~~~/:::/    /\::/    \:::\  /:::/    /|:::::::::::::::::|____|
+ \:::\   \:::\/:::/    /  \:::\   \:::\   \/____/   /:::/    / \/____/  \/____/ \:::\/:::/    /  \/____/      /:::/    /  \/____/ \:::\/:::/    /  ~~~~~~|::|~~~|~~~
+  \:::\   \::::::/    /    \:::\   \:::\    \      /:::/    /                    \::::::/    /               /:::/    /            \::::::/    /         |::|   |
+   \:::\   \::::/    /      \:::\   \:::\____\    /:::/    /                      \::::/    /               /:::/    /              \::::/    /          |::|   |
+    \:::\  /:::/    /        \:::\   \::/    /    \::/    /                       /:::/    /               /:::/    /               /:::/    /           |::|   |
+     \:::\/:::/    /          \:::\   \/____/      \/____/                       /:::/    /               /:::/    /               /:::/    /            |::|   |
+      \::::::/    /            \:::\    \                                       /:::/    /               /:::/    /               /:::/    /             |::|   |
+       \::::/    /              \:::\____\                                     /:::/    /               /:::/    /               /:::/    /              |::|   |
+        \::/____/                \::/    /                                     \::/    /                \::/    /                \::/    /               |::|___|
+         ~~                       \/____/                                       \/____/                  \/____/                  \/____/                 ~~
+
+
+                ''')
+                print(f'''                                               || alpha: {alpha_avg:.4} || beta: {beta_avg:.4} || theta: {theta_avg:.4} ||''')
+                print(f'''                                               ||      : {scores[0]} ||     : {scores[1]} ||     : {scores[2]} ||''')
 
                 #statistical_analysis(alpha_avg, beta_avg, theta_avg)
 
-                '''
-                alpha_individual_score = individual_score("alpha", alpha_average)
-                beta_individual_score = individual_score("beta", alpha_average)
-                theta_individual_score = individual_score("theta", alpha_average)
-                '''
+
 
                 alpha_data.clear()
                 beta_data.clear()
@@ -125,6 +157,8 @@ if __name__ == "__main__":
 
                 #print(datetime.datetime.now().time(), " -- Average: ", (sum(muse_data) / len(muse_data)))
                 endTime = t.time() + delay
+                #values = [alpha_avg, beta_avg, theta_avg]
+                #Screen.wrapper(demo, arguments=[values])
         else:
             print("Bad Connection")
             t.sleep(1)
