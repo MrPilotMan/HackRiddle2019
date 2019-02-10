@@ -2,6 +2,6 @@
 
 # HackRiddle 2019
 
-## Project
+## Betamax
 
 Using the Muse headset to read brainwaves of a user to monitor concentration and recommend study breaks when concentration falls too low for a long time.
