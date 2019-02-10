@@ -4,4 +4,4 @@
 
 ## Project
 
-Using the Muse headset to read brainwaves and interprate the concentration of a user to monitor concentration and recommend study breaks when concentration falls too low for a long time.
+Using the Muse headset to read brainwaves of a user to monitor concentration and recommend study breaks when concentration falls too low for a long time.
