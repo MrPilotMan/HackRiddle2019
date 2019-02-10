@@ -145,7 +145,7 @@ if __name__ == "__main__":
 
                 ''')
                 print(f'''                                               || alpha: {alpha_avg:.4} || beta: {beta_avg:.4} || theta: {theta_avg:.4} ||''')
-                print(f'''                                               ||      : {scores[0]} ||     : {scores[1]} ||     : {scores[2]} ||''')
+                print(f'''                                               ||         {scores[0]} ||         {scores[1]} ||          {scores[2]} ||''')
 
                 #statistical_analysis(alpha_avg, beta_avg, theta_avg)
 

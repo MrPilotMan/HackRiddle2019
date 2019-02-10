@@ -31,17 +31,17 @@ def concentration_score(alpha, beta, theta, alpha_low, alpha_high, beta_low, bet
         beta_trailing = sum(beta_averages) / 5
         theta_trailing = sum(theta_averages) / 5
 
-        if alpha_trailing <= ((alpha_high - alpha_low)/3):
+        if alpha_trailing <= ((alpha_high - alpha_low)/2):
             alpha_string = "LOW"
         else:
             alpha_string = "HIGH"
 
-        if beta_trailing <= ((beta_high - beta_low)/3):
+        if beta_trailing <= ((beta_high - beta_low)/2.5):
             beta_string = "LOW"
         else:
             beta_string = "HIGH"
 
-        if theta_trailing <= ((theta_high - theta_low)/3):
+        if theta_trailing <= ((theta_high - theta_low)/2):
             theta_string = "LOW"
         else:
             theta_string = "HIGH"
